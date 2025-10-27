@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Login</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            /* This animation fades the entire page in on load */
+            animation: pageFadeIn 1s ease-out;
+        }
+
+        /* Container for the floating squares background animation */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .background-animation li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            animation: animateSquares 25s linear infinite;
+            bottom: -150px; /* Start below the screen */
+        }
+
+        /* Different sizes and animation delays for variety */
+        .background-animation li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .background-animation li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .background-animation li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .background-animation li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .background-animation li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .background-animation li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .background-animation li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .background-animation li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .background-animation li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .background-animation li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        /* Keyframes for page fade-in */
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Keyframes for background squares */
+        @keyframes animateSquares {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Custom glow/shine effect for the button on hover */
+        .btn-shine:hover {
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.2), 0 0 5px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        /* This container holds both login and register forms */
+        .form-flipper {
+            transition: all 0.6s ease-in-out;
+            transform-style: preserve-3d; /* Required for the 3D flip */
+        }
+        
+        /* This is an alternative slide animation. 
+           I'll use a simpler opacity/transform slide instead for better compatibility.
+        */
+    </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen overflow-hidden">
+
+    <!-- Animated Background -->
+    <ul class="background-animation">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <!-- Main Form Container -->
+    <!-- `relative` allows absolute positioning of forms inside -->
+    <!-- `overflow-hidden` clips the form that slides out -->
+    <div class="relative w-full max-w-md p-8 bg-black/50 backdrop-blur-sm border border-gray-800 rounded-2xl shadow-2xl shadow-white/5 z-10 overflow-hidden"
+         style="animation: pageFadeIn 0.5s ease-out forwards;">
+        
+        <!-- Forms Wrapper: This holds the two forms side-by-side -->
+        <div class="relative h-[480px]"> <!-- Fixed height to prevent layout jump -->
+
+            <!-- Login Form -->
+            <form id="login-form" class="absolute top-0 left-0 w-full h-full p-4 transition-all duration-500 ease-in-out" style="transform: translateX(0%); opacity: 1; pointer-events: auto;">
+                <h1 class="text-4xl font-bold text-center text-white mb-8">Login</h1>
+                
+                <!-- Animated Input: Email -->
+                <div class="relative mb-6">
+                    <input type="email" id="login-email" name="email" placeholder=" "
+                           class="block w-full px-3 py-3 bg-black text-white border-2 border-gray-700 rounded-md appearance-none peer focus:outline-none focus:border-white transition-colors duration-300" />
+                    <label for="login-email" 
+                           class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] bg-black px-2
+                                  peer-focus:px-2 peer-focus:text-white peer-focus:left-2 peer-focus:-translate-y-5 peer-focus:scale-75
+                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:left-3
+                                  left-3">
+                        Email
+                    </label>
+                </div>
+
+                <!-- Animated Input: Password -->
+                <div class="relative mb-8">
+                    <input type="password" id="login-password" name="password" placeholder=" "
+                           class="block w-full px-3 py-3 bg-black text-white border-2 border-gray-700 rounded-md appearance-none peer focus:outline-none focus:border-white transition-colors duration-300" />
+                    <label for="login-password"
+                           class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] bg-black px-2
+                                  peer-focus:px-2 peer-focus:text-white peer-focus:left-2 peer-focus:-translate-y-5 peer-focus:scale-75
+                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:left-3
+                                  left-3">
+                        Password
+                    </label>
+                </div>
+                
+                <button type="submit"
+                        class="w-full py-3 px-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 active:scale-95 btn-shine">
+                    Sign In
+                </button>
+                
+                <p class="mt-8 text-center text-gray-400">
+                    Don't have an account?
+                    <span id="show-register" class="font-semibold text-white hover:underline cursor-pointer">
+                        Register
+                    </span>
+                </p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" class="absolute top-0 left-0 w-full h-full p-4 transition-all duration-500 ease-in-out" style="transform: translateX(100%); opacity: 0; pointer-events: none;">
+                <h1 class="text-4xl font-bold text-center text-white mb-8">Create Account</h1>
+                
+                <!-- Animated Input: Email -->
+                <div class="relative mb-6">
+                    <input type="email" id="register-email" name="email" placeholder=" "
+                           class="block w-full px-3 py-3 bg-black text-white border-2 border-gray-700 rounded-md appearance-none peer focus:outline-none focus:border-white transition-colors duration-300" />
+                    <label for="register-email"
+                           class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] bg-black px-2
+                                  peer-focus:px-2 peer-focus:text-white peer-focus:left-2 peer-focus:-translate-y-5 peer-focus:scale-75
+                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:left-3
+                                  left-3">
+                        Email
+                    </label>
+                </div>
+
+                <!-- Animated Input: Password -->
+                <div class="relative mb-6">
+                    <input type="password" id="register-password" name="password" placeholder=" "
+                           class="block w-full px-3 py-3 bg-black text-white border-2 border-gray-700 rounded-md appearance-none peer focus:outline-none focus:border-white transition-colors duration-300" />
+                    <label for="register-password"
+                           class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] bg-black px-2
+                                  peer-focus:px-2 peer-focus:text-white peer-focus:left-2 peer-focus:-translate-y-5 peer-focus:scale-75
+                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:left-3
+                                  left-3">
+                        Password
+                    </label>
+                </div>
+
+                <!-- Animated Input: Confirm Password -->
+                <div class="relative mb-8">
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder=" "
+                           class="block w-full px-3 py-3 bg-black text-white border-2 border-gray-700 rounded-md appearance-none peer focus:outline-none focus:border-white transition-colors duration-300" />
+                    <label for="confirm-password"
+                           class="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-3 z-10 origin-[0] bg-black px-2
+                                  peer-focus:px-2 peer-focus:text-white peer-focus:left-2 peer-focus:-translate-y-5 peer-focus:scale-75
+                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:left-3
+                                  left-3">
+                        Confirm Password
+                    </label>
+                </div>
+                
+                <button type="submit"
+                        class="w-full py-3 px-4 bg-white text-black font-bold rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-all duration-300 active:scale-95 btn-shine">
+                    Register
+                </button>
+                
+                <p class="mt-8 text-center text-gray-400">
+                    Already have an account?
+                    <span id="show-login" class="font-semibold text-white hover:underline cursor-pointer">
+                        Login
+                    </span>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+
+            // --- Show Register Form ---
+            showRegisterBtn.addEventListener('click', () => {
+                // Slide login form out to the left
+                loginForm.style.transform = 'translateX(-100%)';
+                loginForm.style.opacity = '0';
+                loginForm.style.pointerEvents = 'none';
+
+                // Slide register form in from the right
+                registerForm.style.transform = 'translateX(0%)';
+                registerForm.style.opacity = '1';
+                registerForm.style.pointerEvents = 'auto';
+            });
+
+            // --- Show Login Form ---
+            showLoginBtn.addEventListener('click', () => {
+                // Slide login form in from the left
+                loginForm.style.transform = 'translateX(0%)';
+                loginForm.style.opacity = '1';
+                loginForm.style.pointerEvents = 'auto';
+
+                // Slide register form out to the right
+                registerForm.style.transform = 'translateX(100%)';
+                registerForm.style.opacity = '0';
+                registerForm.style.pointerEvents = 'none';
+            });
+
+            // Handle form submissions (to prevent default page reload)
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Add your login logic here
+                console.log('Login attempt');
+                // You can add a success/error message display logic here
+            });
+
+            registerForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                // Add your registration logic here
+                console.log('Register attempt');
+                // You can add a success/error message display logic here
+            });
+        });
+    </script>
+
+</body>
+</html>
